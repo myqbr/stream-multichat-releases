@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Política de privacidade · Stream Multichat</title>
+    <meta
+      name="description"
+      content="O que o Stream Multichat guarda no seu computador, o que envia para fora, para quem e por quanto tempo."
+    />
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Política de privacidade</h1>
+      <p class="updated">Stream Multichat · atualizada em 2 de outubro de 2026</p>
+    </header>
+    <main>
+      <div class="summary">
+        <strong>Em resumo</strong>
+        <ul>
+          <li>
+            O app roda no seu computador. Suas contas, suas configurações e o chat ficam com você.
+          </li>
+          <li>
+            Não existe cadastro no Stream Multichat nem um servidor nosso com os seus dados. O que
+            sai do seu computador está listado abaixo, serviço por serviço.
+          </li>
+          <li>
+            Os relatórios de erro (ligados por padrão) não levam IP, tokens, chaves, texto de chat
+            nem nomes de canais, e você desliga quando quiser.
+          </li>
+          <li>
+            O conteúdo da Twitch e da Kick fica só na memória do app. A captura de logs, que vem
+            desligada, guarda no máximo as últimas 24 horas.
+          </li>
+        </ul>
+      </div>
+
+      <h2>1. Quem somos e como falar com a gente</h2>
+      <p>
+        O Stream Multichat é um aplicativo gratuito para Windows que junta o chat ao vivo de canais
+        da Twitch e da Kick numa janela só, com moderação, automações e recursos de IA opcionais.
+        Está em versão beta.
+      </p>
+      <p>
+        Dúvidas, pedidos sobre os seus dados ou problemas de privacidade: abra uma issue em
+        <a href="https://github.com/myqbr/stream-multichat-releases/issues"
+          >github.com/myqbr/stream-multichat-releases/issues</a
+        >. Não use a issue para colar senhas, tokens ou chaves. Nunca precisamos deles.
+      </p>
+
+      <h2>2. O que fica só no seu computador</h2>
+      <ul>
+        <li>
+          <strong>Login da Twitch e da Kick.</strong> Os tokens de acesso ficam cifrados pelo
+          Windows. O app nunca vê a sua senha: o login acontece no site da Twitch ou da Kick, no seu
+          navegador.
+        </li>
+        <li>
+          <strong>Configurações.</strong> Canais, perfis, regras de automação e preferências ficam
+          num arquivo na pasta de dados do app (dentro de <code>%APPDATA%</code>, numa pasta do
+          app). As chaves das IAs que você digita ficam cifradas à parte e não entram nos backups.
+        </li>
+        <li>
+          <strong>Mensagens do chat.</strong> Ficam só na memória enquanto o app está aberto (a
+          quantidade é ajustável em Configurações → Chat) e somem ao fechar. O histórico das
+          automações e o painel <code>/events</code> também ficam só na memória.
+        </li>
+        <li>
+          <strong>Registros do app.</strong> O <code>main.log</code> guarda diagnósticos (conexões,
+          falhas) e nunca o texto das mensagens. A <em>captura de logs</em> é opcional e vem
+          desligada: se você ligar, ela grava no seu computador tudo o que a Twitch e a Kick enviam,
+          inclusive mensagens de outras pessoas, para investigar um problema. Tokens nunca são
+          gravados, e <strong>só as últimas 24 horas ficam guardadas</strong>.
+        </li>
+      </ul>
+
+      <h2>3. O que o app envia para fora e para quem</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Para quem</th>
+              <th>O quê</th>
+              <th>Por quê</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Twitch e Kick</td>
+              <td>
+                Os pedidos feitos com a sua conta: ler o chat, enviar mensagens e moderar quando
+                você manda ou quando uma regra sua manda.
+              </td>
+              <td>É o que o app faz. Os dados são tratados pelas políticas de cada plataforma.</td>
+            </tr>
+            <tr>
+              <td>Servidor de login (Cloudflare Workers)</td>
+              <td>
+                O código de login (ou o token de renovação) e a plataforma escolhida, só quando você
+                entra numa conta ou quando o login precisa ser renovado.
+              </td>
+              <td>
+                A Twitch e a Kick exigem um segredo que o app não pode guardar. O servidor faz a
+                troca e devolve o token. Ele não guarda tokens.
+              </td>
+            </tr>
+            <tr>
+              <td>Servidor de requests da internet (Cloudflare Workers)</td>
+              <td>
+                Só se você ligar uma regra com “Aceitar requests da internet”: uma conexão que fica
+                aberta enquanto o app roda, um identificador da instalação (só um resumo do segredo
+                dela fica guardado) e os requests que chegam ao endereço da regra.
+              </td>
+              <td>Receber avisos de serviços como Ko-fi ou IFTTT e entregá-los ao app.</td>
+            </tr>
+            <tr>
+              <td>Sentry (região da União Europeia)</td>
+              <td>
+                Relatórios de erro, descritos na seção 4. Ligados por padrão; você desliga em
+                Configurações → Diagnóstico.
+              </td>
+              <td>Descobrir e corrigir falhas que só acontecem no computador de quem usa.</td>
+            </tr>
+            <tr>
+              <td>GitHub</td>
+              <td>O app procura versões novas no repositório público de releases.</td>
+              <td>
+                Atualização automática. O GitHub vê o endereço IP de quem verifica. Nada é instalado
+                sem o seu clique.
+              </td>
+            </tr>
+            <tr>
+              <td>Redes de imagens (Twitch, Kick, 7TV, BetterTTV, FrankerFaceZ, Giphy, Tenor)</td>
+              <td>O pedido de cada emote, selo ou GIF que aparece no chat.</td>
+              <td>Mostrar as imagens. Quem hospeda vê o endereço IP, como em qualquer site.</td>
+            </tr>
+            <tr>
+              <td>A IA que você escolher (opcional)</td>
+              <td>
+                O texto que você manda tratar: uma mensagem a traduzir, uma pergunta ao
+                <code>/ai</code>, o assunto de uma resposta automática.
+              </td>
+              <td>
+                Só acontece se você configurar uma IA com a sua própria chave. Vale a política do
+                provedor escolhido. O app nunca usa uma chave que não seja sua.
+              </td>
+            </tr>
+            <tr>
+              <td>Endereços das suas regras (opcional)</td>
+              <td>O que a ação “Chamar uma URL” envia.</td>
+              <td>Vai para o endereço que você mesmo escreveu na regra.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A Cloudflare, que hospeda os dois servidores acima, e as redes de imagens veem o endereço IP
+        de quem se conecta. O painel da Cloudflare pode registrar cada chamada (método, endereço,
+        resultado e tempo) por até 3 dias.
+      </p>
+
+      <h2>4. Relatórios de erro (Sentry)</h2>
+      <p><strong>O que vai:</strong></p>
+      <ul>
+        <li>erros e falhas do app (a pilha de chamadas, a versão do app e a versão do Windows);</li>
+        <li>sessões, para calcular a taxa de abertura sem falhas, e o tempo de abertura;</li>
+        <li>os avisos e erros do <code>main.log</code>;</li>
+        <li>a gravação da tela, só quando há um erro, com todo o texto mascarado.</li>
+      </ul>
+      <p>
+        <strong>O que não vai:</strong> endereço IP, tokens, chaves, texto de chat, nomes dos canais
+        que você acompanha nem das contas em que você entrou (aparecem como “[canal]”).
+      </p>
+      <p>
+        Se você usar “Relatar um problema” na Ajuda, vai também o que você escrever no formulário.
+        Para desligar tudo: Configurações → Diagnóstico → Enviar relatórios de erro. Desligar vale
+        na hora.
+      </p>
+
+      <h2>5. Por quanto tempo cada coisa é guardada</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>O quê</th>
+              <th>Onde</th>
+              <th>Por quanto tempo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mensagens e eventos do chat</td>
+              <td>Memória do app, no seu computador</td>
+              <td>Até você fechar o app</td>
+            </tr>
+            <tr>
+              <td>Captura de logs (desligada por padrão)</td>
+              <td>Arquivo no seu computador</td>
+              <td>
+                No máximo 24 horas. O que for mais antigo é apagado ao abrir o app e a cada 15
+                minutos enquanto ele roda. Se o app ficar fechado por dias, o arquivo velho continua
+                lá até a próxima abertura.
+              </td>
+            </tr>
+            <tr>
+              <td>Tokens de login</td>
+              <td>Arquivo cifrado no seu computador</td>
+              <td>Até você sair da conta no app ou revogar o acesso na plataforma</td>
+            </tr>
+            <tr>
+              <td>Relatórios de erro</td>
+              <td>Sentry (União Europeia)</td>
+              <td>Até 30 dias, prazo do plano do serviço</td>
+            </tr>
+            <tr>
+              <td>Registro de chamadas dos servidores</td>
+              <td>Painel da Cloudflare</td>
+              <td>Até 3 dias</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Os termos de desenvolvedor da Twitch e da Kick permitem guardar o conteúdo deles por, no
+        máximo, 24 horas. É por isso que o chat não é salvo e a captura de logs tem esse limite.
+      </p>
+
+      <h2>6. Seu controle</h2>
+      <ul>
+        <li>
+          <strong>Sair de uma conta:</strong> Configurações → Contas. O token local é apagado.
+        </li>
+        <li>
+          <strong>Revogar o acesso do app:</strong> na Twitch, em
+          <a href="https://www.twitch.tv/settings/connections">twitch.tv/settings/connections</a>;
+          na Kick, nas configurações da sua conta, onde ficam os aplicativos conectados.
+        </li>
+        <li><strong>Desligar os relatórios de erro:</strong> Configurações → Diagnóstico.</li>
+        <li>
+          <strong>Apagar tudo o que o app guardou:</strong> desinstale o app e apague a pasta dele
+          dentro de <code>%APPDATA%</code>. A pasta de logs, que fica dentro dela, abre em
+          Configurações → Diagnóstico → Pasta de logs.
+        </li>
+        <li>
+          <strong>Seus direitos como titular de dados</strong> (a LGPD, por exemplo): como não
+          mantemos um cadastro nem um banco com os seus dados, quase tudo está nas suas mãos pelos
+          itens acima. Para qualquer pedido sobre os relatórios de erro, abra uma issue (seção 1).
+        </li>
+      </ul>
+
+      <h2>7. Mudanças nesta política</h2>
+      <p>
+        Quando algo mudar no que o app coleta ou envia, esta página é atualizada, com a data no
+        topo, e a mudança aparece nas Novidades do app (Ajuda → Novidades).
+      </p>
+
+      <h2>8. Marcas</h2>
+      <p>
+        O Stream Multichat não é afiliado à Twitch nem à Kick, nem aprovado por elas. Twitch, Kick e
+        as demais marcas citadas pertencem aos seus donos.
+      </p>
+    </main>
+    <footer>
+      <p>
+        <a href="../">Stream Multichat</a> · <a href="../termos/">Termos de uso</a> ·
+        <a href="https://github.com/myqbr/stream-multichat-releases">Baixar o app</a>
+      </p>
+    </footer>
+  </body>
+</html>
