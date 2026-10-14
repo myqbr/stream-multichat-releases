@@ -5,7 +5,7 @@
     "pt-BR": "Destacar no chat",
     "en": "Highlight in chat"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Stream Multichat",
   "summary": {
     "pt-BR": "Destaca as mensagens que citam suas palavras e, se quiser, toca um som ou lê em voz alta.",
@@ -23,6 +23,7 @@
   ],
   "entry": "main.js",
   "acts": false,
+  "usesSound": true,
   "form": [
     {
       "key": "words",

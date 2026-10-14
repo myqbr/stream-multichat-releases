@@ -1,19 +1,19 @@
 {
   "format": "stream-multichat.extensions",
-  "serial": 3,
-  "issuedAt": "2026-10-14T02:48:53Z",
+  "serial": 4,
+  "issuedAt": "2026-10-14T03:03:57Z",
   "extensions": [
     {
       "id": "anti-spam-golpes",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "manifestPath": "anti-spam-golpes/manifest.json",
-      "manifestSha256": "859a299f25fba44a26dbacb889bd6c6a92fe0693737f86028b25959960d6c9d9"
+      "manifestSha256": "fba162d46a99c9a59ca622de2027f82b1a14bcf67a120b7fb46d6e0a803ac7d9"
     },
     {
       "id": "destacar-no-chat",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "manifestPath": "destacar-no-chat/manifest.json",
-      "manifestSha256": "f5133410a9b4975558fbacba88983dfa46a9d1d8c0dd8e83bd3176d0412dd040"
+      "manifestSha256": "b585bf513e863a928c39e0070ce27bb1e8ed43e7aef5e7fceaf371b8373d30f2"
     },
     {
       "id": "shoutout-em-raid",

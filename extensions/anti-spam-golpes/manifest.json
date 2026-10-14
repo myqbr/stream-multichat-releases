@@ -5,15 +5,15 @@
     "pt-BR": "Anti-spam e golpes",
     "en": "Anti-spam and scams"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Stream Multichat",
   "summary": {
-    "pt-BR": "Modera venda de seguidores, golpes e Telegram, com regras globais e próprias da Kick e da Twitch.",
-    "en": "Moderates follower sales, scams and Telegram, with global rules and rules of its own for Kick and Twitch."
+    "pt-BR": "Modera as mensagens que casam com as suas regras, com regras globais e próprias da Kick e da Twitch.",
+    "en": "Moderates the messages that match your rules, with global rules and rules of its own for Kick and Twitch."
   },
   "description": {
-    "pt-BR": "Reconhece as famílias de spam e golpe que mais aparecem no chat e age sobre elas: divulgação de bots de espectadores e seguidores, a abordagem “hey stranger / how's your day going”, promoção de “stream upgrades” e de “AI stream”, venda de serviços, seguidores ou espectadores, “boost/grow your stream” com link na bio ou DM, e links do Telegram. Cada grupo tem seu liga/desliga, e você pode acrescentar seus próprios termos.\n\nO padrão é excluir a mensagem. Banir e dar timeout são opções que você liga no formulário: uma primeira instalação nunca bane ninguém sozinha.\n\nA extensão age no canal, então começa em modo de simulação: ela mostra o que faria sem moderar de verdade. Confira o que ela pega e desligue a simulação na engrenagem quando estiver satisfeito.\n\nPor padrão, ela nunca age sobre você, o dono do canal, moderadores, VIPs, equipe da plataforma e bots. Os padrões de detecção são conservadores: pedem a oferta e uma forma de contato (endereço, “link in bio”, “dm me”), então uma pessoa perguntando “como consigo seguidores?” não é pega.",
-    "en": "Recognizes the spam and scam families that show up most in the chat and acts on them: promotion of viewer and follower bots, the “hey stranger / how's your day going” approach, promotion of “stream upgrades” and “AI stream”, selling services, followers or viewers, “boost/grow your stream” with a link in bio or DM, and Telegram links. Each group has its own switch, and you can add your own terms.\n\nThe default is to delete the message. Ban and timeout are options you switch on in the form: a first install never bans anybody by itself.\n\nThe extension acts on the channel, so it starts in simulation mode: it shows what it would do without moderating for real. Check what it catches and turn the simulation off in the cog when you are happy.\n\nBy default it never acts on you, the channel owner, moderators, VIPs, platform staff and bots. The detection patterns are conservative: they need the offer and a way to contact (an address, “link in bio”, “dm me”), so a person asking “how do I get followers?” is not caught."
+    "pt-BR": "Você escreve as regras: uma expressão regular simples por linha, num campo para as regras globais, outro para as da Kick e outro para as da Twitch. A Kick já vem com as seis regras que você usava (bots de espectadores, abordagem “hey stranger”, “stream upgrades”, venda de seguidores, “boost your stream” com link na bio e links do Telegram). Cada plataforma tem o seu interruptor, a ação (excluir a mensagem por padrão, timeout ou banir) e quem mais pode ser moderado. Começa em modo de simulação.",
+    "en": "You write the rules: one simple regular expression per line, in a field for the global rules, one for Kick's and one for Twitch's. Kick comes with the six rules you used (viewer bots, the “hey stranger” opener, “stream upgrades”, follower sales, “boost your stream” with a link in bio and Telegram links). Each platform has its own switch, action (delete the message by default, time out or ban) and who else can be moderated. It starts in simulation mode."
   },
   "category": "moderation",
   "icon": "icon.svg",
@@ -25,76 +25,14 @@
   "acts": true,
   "form": [
     {
-      "key": "viewerBots",
-      "label": {
-        "pt-BR": "Bots de espectadores e seguidores",
-        "en": "Viewer and follower bots"
-      },
-      "help": {
-        "pt-BR": "Ex.: “compre seguidores, primes e espectadores em tal site”.",
-        "en": "E.g. “buy followers, primes and viewers on some site”."
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "strangerApproach",
-      "label": {
-        "pt-BR": "Abordagem “hey stranger / how's your day going”",
-        "en": "“hey stranger / how's your day going” approach"
-      },
-      "help": {
-        "pt-BR": "Puxar conversa para levar a pessoa para o privado.",
-        "en": "Starting a chat to take the person to private."
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "streamUpgrades",
-      "label": {
-        "pt-BR": "Promoção de “stream upgrades” e “AI stream”",
-        "en": "“Stream upgrades” and “AI stream” promotion"
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "servicesSale",
-      "label": {
-        "pt-BR": "Venda de serviços, seguidores ou espectadores",
-        "en": "Selling services, followers or viewers"
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "boostLinks",
-      "label": {
-        "pt-BR": "“Boost/grow your stream” com link na bio ou DM",
-        "en": "“Boost/grow your stream” with a link in bio or DM"
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "telegramLinks",
-      "label": {
-        "pt-BR": "Links do Telegram",
-        "en": "Telegram links"
-      },
-      "type": "toggle",
-      "default": true
-    },
-    {
       "key": "globalRules",
       "label": {
         "pt-BR": "Regras globais (Kick e Twitch)",
         "en": "Global rules (Kick and Twitch)"
       },
       "help": {
-        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Linhas que começam com # são comentários. Valem nos dois canais, somadas às famílias de cima.",
-        "en": "Regular expressions, one per line, case-insensitive. Lines starting with # are comments. They apply on both platforms, on top of the families above."
+        "pt-BR": "Uma regra por linha, como expressão regular simples (palavras e frases com | entre as opções). Valem nos dois canais, somadas às regras de cada um. Linhas com # são comentários.",
+        "en": "One rule per line, as a simple regular expression (words and phrases with | between the options). They apply on both platforms, on top of each one's rules. Lines starting with # are comments."
       },
       "type": "terms",
       "default": [],
@@ -116,17 +54,17 @@
         "en": "Kick rules"
       },
       "help": {
-        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Já vêm preenchidas com as seis regras que você usava para a Kick, uma por linha; edite, remova ou acrescente. Linhas que começam com # são comentários.",
-        "en": "Regular expressions, one per line, case-insensitive. Pre-filled with the six rules you used for Kick, one per line; edit, remove or add. Lines starting with # are comments."
+        "pt-BR": "Uma regra por linha, como expressão regular simples: palavras e frases com | entre as opções. Sem diferenciar maiúsculas; 0, 1, 3, 4, 5, 7, @ e $ valem como as letras que imitam. Vêm as seis que você usava; edite, remova ou acrescente. Linhas com # são comentários.",
+        "en": "One rule per line, as a simple regular expression: words and phrases with | between the options. Case-insensitive; 0, 1, 3, 4, 5, 7, @ and $ count as the letters they imitate. The six you used come filled in; edit, remove or add. Lines starting with # are comments."
       },
       "type": "terms",
       "default": [
-        "b\\W*[o0]\\W*t\\W*k\\W*[i1l]\\W*v\\W*[a4@]|\\bown\\W*k[i1l]ck|\\bv[i1]ew\\W*b[o0]t|\\bf[o0]ll[o0]wers?\\W*b[o0]t",
-        "how.?s\\s+your\\s+day\\s+going|most\\s+entertaining\\s+person|hey\\s+stranger|running\\s+the\\s+show|work\\s+too\\s+hard|success\\s+for\\s+the\\s+rest",
-        "hq\\s+ai\\s+stream|stream\\s+upgrades?",
-        "\\b(best|cheap|fair)\\s+(services?|pricing|prices?|followers|viewers)|\\bfree\\s+(followers|viewers)|chat\\s*bots?\\s+and\\s+more|\\bbuy\\s+(real\\s+)?(followers|viewers)",
-        "\\b(boost|grow)\\s+(your|ur)\\s+(stream|channel)|link\\s+in\\s+(my\\s+)?bio|check\\s+(out\\s+)?my\\s+(bio|profile)|\\b(dm|pm)\\s+me\\b",
-        "t\\s*\\.\\s*me/|t3l3gr4m|telegram\\s*@\\w+"
+        "botkiva|ownkick|viewbot|follower ?bot",
+        "hey stranger|how.?s your day going|most entertaining person|running the show|work too hard|success for the rest",
+        "hq ai stream|stream upgrades?",
+        "(best|cheap|fair) (services?|pricing|prices?|followers|viewers)|free (followers|viewers)|chat ?bots? and more|buy (real )?(followers|viewers)",
+        "(boost|grow) (your|ur) (stream|channel)|link in (my )?bio|check (out )?my (bio|profile)|(dm|pm) me",
+        "t\\.me/|t3l3gr4m|telegram ?@\\w+"
       ],
       "placeholder": "exemplo\\s+de\\s+regra"
     },
@@ -212,8 +150,8 @@
         "en": "Twitch rules"
       },
       "help": {
-        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Valem só na Twitch, somadas às globais e às famílias.",
-        "en": "Regular expressions, one per line, case-insensitive. They apply on Twitch only, on top of the global rules and the families."
+        "pt-BR": "Uma regra por linha, como expressão regular simples. Valem só na Twitch, somadas às globais. Para começar, copie aqui as da Kick que fizerem sentido.",
+        "en": "One rule per line, as a simple regular expression. They apply on Twitch only, on top of the global ones. To start, copy the Kick ones that make sense here."
       },
       "type": "terms",
       "default": [],
@@ -296,8 +234,8 @@
     },
     {
       "path": "main.js",
-      "sha256": "19a7357becaf7b4dce49474062a29433baa54161fb6eccd58e1ac71c850b2271",
-      "bytes": 12329
+      "sha256": "67a4b0f6d9cc53b10328736240578664cbb8bb54a864e305517c418e2815bd24",
+      "bytes": 5829
     }
   ]
 }
