@@ -5,11 +5,11 @@
     "pt-BR": "Anti-spam e golpes",
     "en": "Anti-spam and scams"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Stream Multichat",
   "summary": {
-    "pt-BR": "Modera as mensagens de venda de seguidores e espectadores, abordagens de golpe e links do Telegram.",
-    "en": "Moderates follower and viewer sales, scam approaches and Telegram links."
+    "pt-BR": "Modera venda de seguidores, golpes e Telegram, com regras globais e próprias da Kick e da Twitch.",
+    "en": "Moderates follower sales, scams and Telegram, with global rules and rules of its own for Kick and Twitch."
   },
   "description": {
     "pt-BR": "Reconhece as famílias de spam e golpe que mais aparecem no chat e age sobre elas: divulgação de bots de espectadores e seguidores, a abordagem “hey stranger / how's your day going”, promoção de “stream upgrades” e de “AI stream”, venda de serviços, seguidores ou espectadores, “boost/grow your stream” com link na bio ou DM, e links do Telegram. Cada grupo tem seu liga/desliga, e você pode acrescentar seus próprios termos.\n\nO padrão é excluir a mensagem. Banir e dar timeout são opções que você liga no formulário: uma primeira instalação nunca bane ninguém sozinha.\n\nA extensão age no canal, então começa em modo de simulação: ela mostra o que faria sem moderar de verdade. Confira o que ela pega e desligue a simulação na engrenagem quando estiver satisfeito.\n\nPor padrão, ela nunca age sobre você, o dono do canal, moderadores, VIPs, equipe da plataforma e bots. Os padrões de detecção são conservadores: pedem a oferta e uma forma de contato (endereço, “link in bio”, “dm me”), então uma pessoa perguntando “como consigo seguidores?” não é pega.",
@@ -87,24 +87,54 @@
       "default": true
     },
     {
-      "key": "customTerms",
+      "key": "globalRules",
       "label": {
-        "pt-BR": "Seus próprios termos",
-        "en": "Your own terms"
+        "pt-BR": "Regras globais (Kick e Twitch)",
+        "en": "Global rules (Kick and Twitch)"
       },
       "help": {
-        "pt-BR": "Uma frase por linha. Vale se a mensagem a contiver, sem diferenciar maiúsculas nem acentos. Não é expressão regular.",
-        "en": "One phrase per line. Counts when the message contains it, ignoring capitals and accents. Not a regular expression."
+        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Linhas que começam com # são comentários. Valem nos dois canais, somadas às famílias de cima.",
+        "en": "Regular expressions, one per line, case-insensitive. Lines starting with # are comments. They apply on both platforms, on top of the families above."
       },
       "type": "terms",
       "default": [],
-      "placeholder": "frase de exemplo"
+      "placeholder": "exemplo\\s+de\\s+regra"
     },
     {
-      "key": "action",
+      "key": "kickEnabled",
       "label": {
-        "pt-BR": "O que fazer",
-        "en": "What to do"
+        "pt-BR": "Moderar na Kick",
+        "en": "Moderate on Kick"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "kickRules",
+      "label": {
+        "pt-BR": "Regras da Kick",
+        "en": "Kick rules"
+      },
+      "help": {
+        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Já vêm preenchidas com as seis regras que você usava para a Kick, uma por linha; edite, remova ou acrescente. Linhas que começam com # são comentários.",
+        "en": "Regular expressions, one per line, case-insensitive. Pre-filled with the six rules you used for Kick, one per line; edit, remove or add. Lines starting with # are comments."
+      },
+      "type": "terms",
+      "default": [
+        "b\\W*[o0]\\W*t\\W*k\\W*[i1l]\\W*v\\W*[a4@]|\\bown\\W*k[i1l]ck|\\bv[i1]ew\\W*b[o0]t|\\bf[o0]ll[o0]wers?\\W*b[o0]t",
+        "how.?s\\s+your\\s+day\\s+going|most\\s+entertaining\\s+person|hey\\s+stranger|running\\s+the\\s+show|work\\s+too\\s+hard|success\\s+for\\s+the\\s+rest",
+        "hq\\s+ai\\s+stream|stream\\s+upgrades?",
+        "\\b(best|cheap|fair)\\s+(services?|pricing|prices?|followers|viewers)|\\bfree\\s+(followers|viewers)|chat\\s*bots?\\s+and\\s+more|\\bbuy\\s+(real\\s+)?(followers|viewers)",
+        "\\b(boost|grow)\\s+(your|ur)\\s+(stream|channel)|link\\s+in\\s+(my\\s+)?bio|check\\s+(out\\s+)?my\\s+(bio|profile)|\\b(dm|pm)\\s+me\\b",
+        "t\\s*\\.\\s*me/|t3l3gr4m|telegram\\s*@\\w+"
+      ],
+      "placeholder": "exemplo\\s+de\\s+regra"
+    },
+    {
+      "key": "kickAction",
+      "label": {
+        "pt-BR": "Kick: o que fazer",
+        "en": "Kick: what to do"
       },
       "help": {
         "pt-BR": "Excluir a mensagem é o padrão. Banir e dar timeout dependem de a mensagem ter o nome da pessoa; sem ele, a mensagem é só excluída.",
@@ -137,13 +167,13 @@
       ]
     },
     {
-      "key": "timeoutMinutes",
+      "key": "kickTimeoutMinutes",
       "label": {
-        "pt-BR": "Duração do timeout",
-        "en": "Timeout length"
+        "pt-BR": "Kick: duração do timeout",
+        "en": "Kick: timeout length"
       },
       "showIf": {
-        "key": "action",
+        "key": "kickAction",
         "equals": "timeout"
       },
       "type": "number",
@@ -154,49 +184,98 @@
       "unit": "min"
     },
     {
-      "key": "moderatable",
+      "key": "kickModeratable",
       "label": {
-        "pt-BR": "Quem mais pode ser moderado",
-        "en": "Who else can be moderated"
+        "pt-BR": "Kick: quem mais pode ser moderado",
+        "en": "Kick: who else can be moderated"
       },
       "help": {
-        "pt-BR": "Por padrão ela nunca age sobre você, o dono do canal, moderadores, VIPs, equipe da plataforma e bots.",
+        "pt-BR": "Por padrão nunca age sobre você, o dono do canal, moderadores, VIPs, equipe da plataforma e bots.",
         "en": "By default it never acts on you, the channel owner, moderators, VIPs, platform staff and bots."
       },
       "type": "roles",
       "default": []
     },
     {
-      "key": "scope",
+      "key": "twitchEnabled",
       "label": {
-        "pt-BR": "Onde vale",
-        "en": "Where it applies"
+        "pt-BR": "Moderar na Twitch",
+        "en": "Moderate on Twitch"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "twitchRules",
+      "label": {
+        "pt-BR": "Regras da Twitch",
+        "en": "Twitch rules"
+      },
+      "help": {
+        "pt-BR": "Expressões regulares, uma por linha, sem diferenciar maiúsculas. Valem só na Twitch, somadas às globais e às famílias.",
+        "en": "Regular expressions, one per line, case-insensitive. They apply on Twitch only, on top of the global rules and the families."
+      },
+      "type": "terms",
+      "default": [],
+      "placeholder": "exemplo\\s+de\\s+regra"
+    },
+    {
+      "key": "twitchAction",
+      "label": {
+        "pt-BR": "Twitch: o que fazer",
+        "en": "Twitch: what to do"
       },
       "type": "select",
-      "default": "all",
+      "default": "delete",
       "options": [
         {
-          "value": "all",
+          "value": "delete",
           "label": {
-            "pt-BR": "Todos os canais",
-            "en": "All channels"
+            "pt-BR": "Excluir a mensagem",
+            "en": "Delete the message"
           }
         },
         {
-          "value": "twitch",
+          "value": "timeout",
           "label": {
-            "pt-BR": "Só na Twitch",
-            "en": "Twitch only"
+            "pt-BR": "Dar timeout",
+            "en": "Time out"
           }
         },
         {
-          "value": "kick",
+          "value": "ban",
           "label": {
-            "pt-BR": "Só na Kick",
-            "en": "Kick only"
+            "pt-BR": "Banir do canal",
+            "en": "Ban from the channel"
           }
         }
       ]
+    },
+    {
+      "key": "twitchTimeoutMinutes",
+      "label": {
+        "pt-BR": "Twitch: duração do timeout",
+        "en": "Twitch: timeout length"
+      },
+      "showIf": {
+        "key": "twitchAction",
+        "equals": "timeout"
+      },
+      "type": "number",
+      "default": 10,
+      "min": 1,
+      "max": 20160,
+      "step": 1,
+      "unit": "min"
+    },
+    {
+      "key": "twitchModeratable",
+      "label": {
+        "pt-BR": "Twitch: quem mais pode ser moderado",
+        "en": "Twitch: who else can be moderated"
+      },
+      "type": "roles",
+      "default": []
     }
   ],
   "files": [
@@ -217,8 +296,8 @@
     },
     {
       "path": "main.js",
-      "sha256": "f7ca1c059311b29959ab2d63376eda0789963bf677fa93bed674f087ee8f326c",
-      "bytes": 10319
+      "sha256": "19a7357becaf7b4dce49474062a29433baa54161fb6eccd58e1ac71c850b2271",
+      "bytes": 12329
     }
   ]
 }

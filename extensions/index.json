@@ -1,13 +1,13 @@
 {
   "format": "stream-multichat.extensions",
-  "serial": 2,
-  "issuedAt": "2026-10-14T02:28:36Z",
+  "serial": 3,
+  "issuedAt": "2026-10-14T02:48:53Z",
   "extensions": [
     {
       "id": "anti-spam-golpes",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "manifestPath": "anti-spam-golpes/manifest.json",
-      "manifestSha256": "b1f1ec2f19a5a71bbc2c96524d2ee999e0e78186bd710740daebc2e75a3b7bbf"
+      "manifestSha256": "859a299f25fba44a26dbacb889bd6c6a92fe0693737f86028b25959960d6c9d9"
     },
     {
       "id": "destacar-no-chat",

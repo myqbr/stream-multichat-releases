@@ -126,30 +126,65 @@ var firstGroupMatching = (text, enabled) => {
 	}
 	return null;
 };
+String.raw`b\W*[o0]\W*t\W*k\W*[i1l]\W*v\W*[a4@]|\bown\W*k[i1l]ck|\bv[i1]ew\W*b[o0]t|\bf[o0]ll[o0]wers?\W*b[o0]t`, String.raw`how.?s\s+your\s+day\s+going|most\s+entertaining\s+person|hey\s+stranger|running\s+the\s+show|work\s+too\s+hard|success\s+for\s+the\s+rest`, String.raw`hq\s+ai\s+stream|stream\s+upgrades?`, String.raw`\b(best|cheap|fair)\s+(services?|pricing|prices?|followers|viewers)|\bfree\s+(followers|viewers)|chat\s*bots?\s+and\s+more|\bbuy\s+(real\s+)?(followers|viewers)`, String.raw`\b(boost|grow)\s+(your|ur)\s+(stream|channel)|link\s+in\s+(my\s+)?bio|check\s+(out\s+)?my\s+(bio|profile)|\b(dm|pm)\s+me\b`, String.raw`t\s*\.\s*me/|t3l3gr4m|telegram\s*@\w+`;
 //#endregion
 //#region extensions/anti-spam-golpes/src/index.ts
+/** A line of a rules field longer than this is ignored (a pattern of that size is a mistake). */
+var MAX_RULE_LENGTH = 300;
+/** Rules read from one field. */
+var MAX_RULES = 50;
+var NESTED_QUANTIFIER = /\((?:[^()\\]|\\.)*[+*}](?:[^()\\]|\\.)*\)[+*{]/;
 var MAX_TIMEOUT_SECONDS = 1209600;
 var flag = (value, fallback) => typeof value === "boolean" ? value : fallback;
 var list = (value) => Array.isArray(value) ? value.filter((entry) => typeof entry === "string") : [];
 /** Every group is on unless the form says it is off. */
 var enabledGroups = (values) => new Set(GROUPS.map((group) => group.id).filter((id) => flag(values[id], true)));
 var actionOf = (value) => value === "timeout" || value === "ban" ? value : "delete";
-var scopeOf = (value) => value === "twitch" || value === "kick" ? value : "all";
+/**
+* The regular expressions of a rules field: one per line, case-insensitive. Blank lines, `#` comment
+* lines, lines that are not a valid expression, lines too long and nested quantifiers are skipped
+* (one bad line never costs the others); at most `MAX_RULES`.
+*/
+var compileRules = (lines) => {
+	const rules = [];
+	for (const raw of lines) {
+		const line = raw.trim();
+		if (line.length === 0 || line.startsWith("#") || line.length > MAX_RULE_LENGTH) continue;
+		if (NESTED_QUANTIFIER.test(line)) continue;
+		try {
+			rules.push(new RegExp(line, "i"));
+		} catch {}
+		if (rules.length >= MAX_RULES) break;
+	}
+	return rules;
+};
+var minutesOf = (value) => typeof value === "number" && Number.isFinite(value) ? value : 10;
+var platformSettings = (values, prefix) => ({
+	enabled: flag(values[`${prefix}Enabled`], true),
+	rules: compileRules(list(values[`${prefix}Rules`])),
+	action: actionOf(values[`${prefix}Action`]),
+	timeoutMinutes: minutesOf(values[`${prefix}TimeoutMinutes`]),
+	moderatable: list(values[`${prefix}Moderatable`])
+});
 /** The form's values as typed settings, with the manifest's defaults where a value is missing. */
 var readSettings = (values) => ({
 	groups: enabledGroups(values),
-	terms: [...new Set(list(values.customTerms).map(normalize))].filter((term) => term.length > 0),
-	action: actionOf(values.action),
-	timeoutMinutes: typeof values.timeoutMinutes === "number" && Number.isFinite(values.timeoutMinutes) ? values.timeoutMinutes : 10,
-	moderatable: list(values.moderatable),
-	scope: scopeOf(values.scope)
+	globalRules: compileRules(list(values.globalRules)),
+	twitch: platformSettings(values, "twitch"),
+	kick: platformSettings(values, "kick")
 });
-/** What in `text` makes it spam to these settings, or null. */
-var detect = (text, settings) => {
-	const normalized = normalize(text);
-	const group = firstGroupMatching(normalized, settings.groups);
+/**
+* What in `text` makes it spam for a message of this platform, or null: the built-in families (both
+* platforms), then the global rules, then the platform's own rules. The platform has to be on.
+*/
+var detect = (text, settings, platform) => {
+	const own = settings[platform];
+	if (!own.enabled) return null;
+	const group = firstGroupMatching(normalize(text), settings.groups);
 	if (group !== null) return group;
-	return settings.terms.some((term) => normalized.includes(term)) ? "custom" : null;
+	const raw = text.slice(0, MAX_TEXT);
+	const matches = (rule) => rule.test(raw);
+	return settings.globalRules.some(matches) || own.rules.some(matches) ? "rule" : null;
 };
 /**
 * Whether the extension may act on this author: every role they hold has to be one the form names.
@@ -195,13 +230,15 @@ var activate = (api) => {
 	let settings = readSettings(api.values);
 	const react = async (message) => {
 		if (message.event !== null) return;
-		if (settings.scope !== "all" && message.platform !== settings.scope) return;
-		if (!mayModerate(message.author, settings.moderatable)) return;
-		const finding = detect(message.text, settings);
+		const platform = message.platform;
+		const own = settings[platform];
+		if (!own.enabled) return;
+		if (!mayModerate(message.author, own.moderatable)) return;
+		const finding = detect(message.text, settings, platform);
 		if (finding === null) return;
 		try {
-			const answer = await api.chat.moderate(moderationFor(message, settings));
-			api.log("info", `${finding}: ${settings.action} (${answer.ok ? answer.simulated ? "simulated" : "done" : answer.code})`);
+			const answer = await api.chat.moderate(moderationFor(message, own));
+			api.log("info", `${finding}: ${own.action} (${answer.ok ? answer.simulated ? "simulated" : "done" : answer.code})`);
 		} catch (error) {
 			api.log("error", error instanceof Error ? error.message : "the moderation failed");
 		}
@@ -218,6 +255,7 @@ var activate = (api) => {
 //#endregion
 exports.activate = activate;
 exports.default = activate;
+exports.compileRules = compileRules;
 exports.detect = detect;
 exports.mayModerate = mayModerate;
 exports.moderationFor = moderationFor;
