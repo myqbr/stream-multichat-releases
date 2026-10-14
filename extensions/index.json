@@ -1,0 +1,25 @@
+{
+  "format": "stream-multichat.extensions",
+  "serial": 1,
+  "issuedAt": "2026-10-14T02:17:25Z",
+  "extensions": [
+    {
+      "id": "anti-spam-golpes",
+      "version": "1.0.0",
+      "manifestPath": "anti-spam-golpes/manifest.json",
+      "manifestSha256": "b1f1ec2f19a5a71bbc2c96524d2ee999e0e78186bd710740daebc2e75a3b7bbf"
+    },
+    {
+      "id": "destacar-no-chat",
+      "version": "1.0.0",
+      "manifestPath": "destacar-no-chat/manifest.json",
+      "manifestSha256": "f5133410a9b4975558fbacba88983dfa46a9d1d8c0dd8e83bd3176d0412dd040"
+    },
+    {
+      "id": "shoutout-em-raid",
+      "version": "1.0.0",
+      "manifestPath": "shoutout-em-raid/manifest.json",
+      "manifestSha256": "bd8e46dbe8076a7883a7467aa2b3d7f9724dd8f84e15f94fef89f36b54e63060"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "format": "stream-multichat.extension",
+  "id": "shoutout-em-raid",
+  "name": {
+    "pt-BR": "Shoutout em raid",
+    "en": "Raid shoutout"
+  },
+  "version": "1.0.0",
+  "author": "Stream Multichat",
+  "summary": {
+    "pt-BR": "Quando um canal faz raid, pergunta se você quer dar um shoutout e dá com um clique.",
+    "en": "When a channel raids you, asks if you want to give a shoutout and gives it with one click."
+  },
+  "description": {
+    "pt-BR": "Quando um canal faz raid, a extensão espera alguns segundos, pergunta “Dar shoutout em NOME? (N espectadores)” e, se você confirmar, executa o comando /shoutout. Depois, volta o chat para a posição normal.\n\nVocê escolhe o mínimo de espectadores para a raid contar, quanto tempo esperar antes de perguntar e quanto tempo a pergunta fica na tela. Se preferir, desligue a confirmação e o shoutout sai sozinho.\n\nA extensão age no canal, então começa em modo de simulação: ela mostra o que faria sem enviar o comando de verdade. Desligue a simulação na engrenagem quando quiser que o shoutout saia.\n\nPrecisa da conta da Twitch conectada, com permissão para dar shoutouts no canal.",
+    "en": "When a channel raids you, the extension waits a few seconds, asks “Give NAME a shoutout? (N viewers)” and, if you confirm, runs the /shoutout command. Then it takes the chat back to its normal position.\n\nYou choose the minimum number of viewers for a raid to count, how long to wait before asking and how long the question stays on screen. If you prefer, turn the confirmation off and the shoutout goes out by itself.\n\nThe extension acts on the channel, so it starts in simulation mode: it shows what it would do without sending the command. Turn the simulation off in the cog when you want the shoutout to go out.\n\nIt needs the Twitch account connected, with permission to give shoutouts in the channel."
+  },
+  "category": "events",
+  "icon": "icon.svg",
+  "images": [
+    "images/pergunta.svg",
+    "images/raid.svg"
+  ],
+  "entry": "main.js",
+  "acts": true,
+  "form": [
+    {
+      "key": "minViewers",
+      "label": {
+        "pt-BR": "Mínimo de espectadores",
+        "en": "Minimum viewers"
+      },
+      "help": {
+        "pt-BR": "Raids menores que isso são ignoradas.",
+        "en": "Raids smaller than this are ignored."
+      },
+      "type": "number",
+      "default": 10,
+      "min": 1,
+      "max": 1000000,
+      "step": 1,
+      "unit": "espectadores"
+    },
+    {
+      "key": "ask",
+      "label": {
+        "pt-BR": "Pedir confirmação antes",
+        "en": "Ask for confirmation first"
+      },
+      "help": {
+        "pt-BR": "Desligado, o shoutout é dado sem perguntar.",
+        "en": "Off, the shoutout is given without asking."
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "waitSeconds",
+      "label": {
+        "pt-BR": "Esperar antes de perguntar",
+        "en": "Wait before asking"
+      },
+      "help": {
+        "pt-BR": "Dá tempo de a raid chegar e de você agradecer.",
+        "en": "Gives the raid time to arrive and you time to say thanks."
+      },
+      "type": "number",
+      "default": 10,
+      "min": 0,
+      "max": 300,
+      "step": 1,
+      "unit": "s"
+    },
+    {
+      "key": "confirmSeconds",
+      "label": {
+        "pt-BR": "Tempo da pergunta",
+        "en": "Time for the question"
+      },
+      "help": {
+        "pt-BR": "Sem resposta nesse tempo, é como dizer não.",
+        "en": "With no answer in this time, it counts as a no."
+      },
+      "showIf": {
+        "key": "ask",
+        "equals": true
+      },
+      "type": "number",
+      "default": 30,
+      "min": 5,
+      "max": 300,
+      "step": 5,
+      "unit": "s"
+    },
+    {
+      "key": "platform",
+      "label": {
+        "pt-BR": "Plataforma",
+        "en": "Platform"
+      },
+      "type": "select",
+      "default": "twitch",
+      "options": [
+        {
+          "value": "twitch",
+          "label": {
+            "pt-BR": "Twitch",
+            "en": "Twitch"
+          }
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "icon.svg",
+      "sha256": "2836d9fde97968debbc3832db129ae2f4c5a14560a417f8a96d4ffe80e15a254",
+      "bytes": 377
+    },
+    {
+      "path": "images/pergunta.svg",
+      "sha256": "1a7dfc51cc69eeb81afa14437177625325e4f79d63c4249a6b9071bb253aad79",
+      "bytes": 736
+    },
+    {
+      "path": "images/raid.svg",
+      "sha256": "1485adf03fcff3c81a8ec7a0e4c230db0662717f71fd15013dc587b5b500b35e",
+      "bytes": 829
+    },
+    {
+      "path": "main.js",
+      "sha256": "e9bdb54a69f55d407955b5b19938e387ed75bfc68ecd551ba04c578360ebf3c7",
+      "bytes": 3880
+    }
+  ]
+}

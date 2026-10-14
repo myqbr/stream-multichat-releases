@@ -1,0 +1,159 @@
+{
+  "format": "stream-multichat.extension",
+  "id": "destacar-no-chat",
+  "name": {
+    "pt-BR": "Destacar no chat",
+    "en": "Highlight in chat"
+  },
+  "version": "1.0.0",
+  "author": "Stream Multichat",
+  "summary": {
+    "pt-BR": "Destaca as mensagens que citam suas palavras e, se quiser, toca um som ou lê em voz alta.",
+    "en": "Highlights the messages that mention your words and, if you want, plays a sound or reads them aloud."
+  },
+  "description": {
+    "pt-BR": "Fique sabendo na hora quando alguém fala de você. Escreva as palavras que interessam (seu nome, apelidos, o nome do jogo) e toda mensagem que tiver uma delas fica em destaque no chat.\n\nSe quiser, a extensão também toca um som e lê a mensagem em voz alta. Um intervalo entre os avisos evita barulho demais quando o chat repete a mesma palavra.\n\nPor padrão, só espectadores comuns disparam: suas próprias mensagens, as do dono do canal, de moderadores, de VIPs, da equipe da plataforma e de bots não disparam. Você pode ampliar isso no formulário.\n\nA extensão só marca e avisa neste computador: não envia nada para o chat nem modera ninguém.",
+    "en": "Know right away when someone talks about you. Write the words that matter (your name, nicknames, the name of the game) and every message that has one of them is highlighted in the chat.\n\nIf you want, the extension also plays a sound and reads the message aloud. A pause between alerts avoids too much noise when the chat repeats the same word.\n\nBy default only regular viewers trigger it: your own messages and those of the channel owner, moderators, VIPs, platform staff and bots do not. You can widen that in the form.\n\nThe extension only marks and alerts on this computer: it sends nothing to the chat and moderates nobody."
+  },
+  "category": "chat",
+  "icon": "icon.svg",
+  "images": [
+    "images/palavras.svg",
+    "images/destaque.svg"
+  ],
+  "entry": "main.js",
+  "acts": false,
+  "form": [
+    {
+      "key": "words",
+      "label": {
+        "pt-BR": "Palavras para destacar",
+        "en": "Words to highlight"
+      },
+      "help": {
+        "pt-BR": "Uma por linha: seu nome, apelidos, o nome do jogo. Sem acentos ou maiúsculas é a mesma coisa. Vazio, a extensão não destaca nada.",
+        "en": "One per line: your name, nicknames, the name of the game. Accents and capitals do not matter. Empty, the extension highlights nothing."
+      },
+      "type": "terms",
+      "default": [],
+      "placeholder": "exemplo"
+    },
+    {
+      "key": "wholeWord",
+      "label": {
+        "pt-BR": "Só a palavra inteira",
+        "en": "Whole word only"
+      },
+      "help": {
+        "pt-BR": "Ligado, “ana” não destaca “banana”.",
+        "en": "On, “ana” does not highlight “banana”."
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "firers",
+      "label": {
+        "pt-BR": "Quem mais pode disparar",
+        "en": "Who else can trigger it"
+      },
+      "help": {
+        "pt-BR": "Espectadores comuns sempre disparam. Marque quem mais pode: por padrão, você, o dono do canal, moderadores, VIPs, equipe da plataforma e bots não disparam.",
+        "en": "Regular viewers always trigger it. Tick who else can: by default you, the channel owner, moderators, VIPs, platform staff and bots do not."
+      },
+      "type": "roles",
+      "default": []
+    },
+    {
+      "key": "playSound",
+      "label": {
+        "pt-BR": "Tocar um som",
+        "en": "Play a sound"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "sound",
+      "label": {
+        "pt-BR": "Som",
+        "en": "Sound"
+      },
+      "showIf": {
+        "key": "playSound",
+        "equals": true
+      },
+      "type": "sound",
+      "default": "moeda"
+    },
+    {
+      "key": "volume",
+      "label": {
+        "pt-BR": "Volume do som",
+        "en": "Sound volume"
+      },
+      "showIf": {
+        "key": "playSound",
+        "equals": true
+      },
+      "type": "number",
+      "default": 80,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "speak",
+      "label": {
+        "pt-BR": "Ler a mensagem em voz alta",
+        "en": "Read the message aloud"
+      },
+      "help": {
+        "pt-BR": "Fala quem escreveu e o texto; endereços são lidos como “link”.",
+        "en": "Says who wrote it and the text; addresses are read as “link”."
+      },
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "cooldownSeconds",
+      "label": {
+        "pt-BR": "Intervalo entre avisos",
+        "en": "Pause between alerts"
+      },
+      "help": {
+        "pt-BR": "Depois de um destaque, as mensagens dentro desse tempo não disparam de novo. 0 destaca todas.",
+        "en": "After a highlight, messages within this time do not trigger again. 0 highlights every one."
+      },
+      "type": "number",
+      "default": 30,
+      "min": 0,
+      "max": 3600,
+      "step": 1,
+      "unit": "s"
+    }
+  ],
+  "files": [
+    {
+      "path": "icon.svg",
+      "sha256": "f3420ceee2f0789fb1b7018762b21a2a9a9aeb70a4ad6ad69a11e2eb262ea79a",
+      "bytes": 411
+    },
+    {
+      "path": "images/destaque.svg",
+      "sha256": "0b9610bc7ad765c945d1f56ac4a7f6648eb7a6f741df27c80abc3069c5a097e0",
+      "bytes": 1008
+    },
+    {
+      "path": "images/palavras.svg",
+      "sha256": "1b4a513c41660e7ad7956ae34da1eb01e3392298c2caa4ceb8d84539efe1bf7e",
+      "bytes": 1148
+    },
+    {
+      "path": "main.js",
+      "sha256": "38b31f1f7bbcd05e79f5bd223bef5332beb030a9e6924858851d4a9677fbdfaf",
+      "bytes": 4019
+    }
+  ]
+}
