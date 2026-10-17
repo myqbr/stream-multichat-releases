@@ -1,0 +1,219 @@
+{
+  "format": "stream-multichat.extension",
+  "id": "aviso-de-live",
+  "name": {
+    "pt-BR": "Aviso de live",
+    "en": "Live alert"
+  },
+  "version": "1.0.0",
+  "author": "Stream Multichat",
+  "summary": {
+    "pt-BR": "Avisa quando um dos seus canais fica ao vivo: com um som, uma voz que diz o que você escrever e um aviso na tela.",
+    "en": "Tells you when one of your channels goes live: with a sound, a voice that says what you write and a notice on screen."
+  },
+  "description": {
+    "pt-BR": "Fique sabendo na hora em que um canal do seu perfil entra ao vivo, mesmo com a janela escondida na bandeja. Quando acontece, a extensão pode tocar um som, falar uma frase em voz alta e mostrar um aviso na tela. Cada aviso é opcional.\n\nA frase é sua: escreva o que a voz deve dizer e use {canal}, {plataforma}, {titulo} e {categoria} para encaixar o nome do canal, a plataforma e o que a live informa. Por padrão a voz diz “{canal} ficou ao vivo”, e ela só liga se você quiser. Links no título são lidos como “link”.\n\nVocê escolhe as plataformas e, se quiser, quais canais avisam; sem nenhum canal na lista, todos os canais do seu perfil avisam. Um intervalo por canal evita barulho quando a transmissão cai e volta. A extensão não avisa de uma live que já estava no ar quando ela começou a rodar, nem de uma live que caiu e voltou em poucos minutos.\n\nO título e a categoria da live só aparecem no aviso e na voz: a extensão não os guarda nem os escreve em lugar nenhum. Ela só avisa neste computador: não envia nada para o chat nem modera ninguém. Para saber quando uma live começa, o aplicativo consulta as plataformas uma vez por minuto enquanto ela estiver ligada, também com a janela escondida.",
+    "en": "Know right away when a channel of your profile goes live, even with the window hidden in the tray. When it happens, the extension can play a sound, say a sentence aloud and show a notice on screen. Each alert is optional.\n\nThe sentence is yours: write what the voice should say and use {canal}, {plataforma}, {titulo} and {categoria} (or {channel}, {platform}, {title} and {category}) to fit in the channel name, the platform and what the live tells. By default the voice says “{channel} went live”, and it is off unless you turn it on. Links in the title are read as “link”.\n\nYou choose the platforms and, if you want, which channels alert; with no channel in the list, every channel of your profile alerts. A pause per channel avoids noise when the stream drops and comes back. The extension does not alert about a live that was already on the air when it started running, nor about a live that dropped and came back within a few minutes.\n\nThe live's title and category only show in the notice and the voice: the extension does not keep them or write them anywhere. It only alerts on this computer: it sends nothing to the chat and moderates nobody. To know when a live starts, the app asks the platforms once a minute while it is on, also with the window hidden."
+  },
+  "category": "events",
+  "minAppVersion": "0.1.0-beta.32",
+  "icon": "icon.svg",
+  "images": [
+    "images/aviso.svg",
+    "images/voz.svg"
+  ],
+  "entry": "main.js",
+  "acts": false,
+  "usesSound": true,
+  "usesLiveState": true,
+  "form": [
+    {
+      "key": "twitchEnabled",
+      "label": {
+        "pt-BR": "Avisar canais da Twitch",
+        "en": "Alert for Twitch channels"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "kickEnabled",
+      "label": {
+        "pt-BR": "Avisar canais da Kick",
+        "en": "Alert for Kick channels"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "channels",
+      "label": {
+        "pt-BR": "Só estes canais",
+        "en": "Only these channels"
+      },
+      "help": {
+        "pt-BR": "Um por linha, só o nome do canal. Vazio, todos os canais do seu perfil avisam.",
+        "en": "One per line, just the channel name. Empty, every channel of your profile alerts."
+      },
+      "type": "terms",
+      "default": [],
+      "placeholder": "nome_do_canal"
+    },
+    {
+      "key": "cooldownMinutes",
+      "label": {
+        "pt-BR": "Intervalo por canal",
+        "en": "Pause per channel"
+      },
+      "help": {
+        "pt-BR": "Depois de avisar de um canal, ele não avisa de novo dentro desse tempo, mesmo que a live caia e volte. 0 avisa toda vez.",
+        "en": "After alerting about a channel, it does not alert again within this time, even if the live drops and comes back. 0 alerts every time."
+      },
+      "type": "number",
+      "default": 10,
+      "min": 0,
+      "max": 1440,
+      "step": 1,
+      "unit": "min"
+    },
+    {
+      "key": "message",
+      "label": {
+        "pt-BR": "Frase do aviso",
+        "en": "Alert sentence"
+      },
+      "help": {
+        "pt-BR": "É o que a voz diz e o título do aviso na tela. Use {canal}, {plataforma}, {titulo} e {categoria}. Vazio, usa a frase padrão.",
+        "en": "It is what the voice says and the title of the notice on screen. Use {canal}, {plataforma}, {titulo} and {categoria} (or {channel}, {platform}, {title}, {category}). Empty, the default sentence is used."
+      },
+      "type": "text",
+      "default": "{canal} ficou ao vivo",
+      "placeholder": "{canal} ficou ao vivo"
+    },
+    {
+      "key": "showNotice",
+      "label": {
+        "pt-BR": "Mostrar um aviso na tela",
+        "en": "Show a notice on screen"
+      },
+      "help": {
+        "pt-BR": "Dentro do aplicativo, ou do Windows quando a janela está escondida. Mostra também o título e a categoria da live.",
+        "en": "Inside the app, or from Windows when the window is hidden. It also shows the live's title and category."
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "playSound",
+      "label": {
+        "pt-BR": "Tocar um som",
+        "en": "Play a sound"
+      },
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "sound",
+      "label": {
+        "pt-BR": "Som",
+        "en": "Sound"
+      },
+      "showIf": {
+        "key": "playSound",
+        "equals": true
+      },
+      "type": "sound",
+      "default": "campainha"
+    },
+    {
+      "key": "volume",
+      "label": {
+        "pt-BR": "Volume do som",
+        "en": "Sound volume"
+      },
+      "showIf": {
+        "key": "playSound",
+        "equals": true
+      },
+      "type": "number",
+      "default": 80,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "speak",
+      "label": {
+        "pt-BR": "Falar a frase em voz alta",
+        "en": "Say the sentence aloud"
+      },
+      "help": {
+        "pt-BR": "Uma voz é invasiva: fica desligada até você ligar. Endereços no título são lidos como “link”.",
+        "en": "A voice is intrusive: it stays off until you turn it on. Addresses in the title are read as “link”."
+      },
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "speakRate",
+      "label": {
+        "pt-BR": "Velocidade da voz",
+        "en": "Voice speed"
+      },
+      "help": {
+        "pt-BR": "1 é a velocidade normal; de 0,5 (devagar) a 2 (rápido).",
+        "en": "1 is normal speed; from 0.5 (slow) to 2 (fast)."
+      },
+      "showIf": {
+        "key": "speak",
+        "equals": true
+      },
+      "type": "number",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "unit": "x"
+    },
+    {
+      "key": "speakVolume",
+      "label": {
+        "pt-BR": "Volume da voz",
+        "en": "Voice volume"
+      },
+      "showIf": {
+        "key": "speak",
+        "equals": true
+      },
+      "type": "number",
+      "default": 80,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    }
+  ],
+  "files": [
+    {
+      "path": "icon.svg",
+      "sha256": "4cb55913f6b69775991b8d03c7986996e0261f839a5a0397b99e81763be53e91",
+      "bytes": 491
+    },
+    {
+      "path": "images/aviso.svg",
+      "sha256": "ab8ee846282973c55d84ac51c4b8a26f88f7f8e1f4013be9566cb3a08518ad12",
+      "bytes": 1216
+    },
+    {
+      "path": "images/voz.svg",
+      "sha256": "9c8630ffbb125e5ace8026a4ad7a1252e709f63dabbf2876e2930a9324a25cea",
+      "bytes": 732
+    },
+    {
+      "path": "main.js",
+      "sha256": "517acd15c891b4ce7bbba79c035184b1c4196c58baa15fb78e325c9d2a63cc61",
+      "bytes": 7722
+    }
+  ]
+}

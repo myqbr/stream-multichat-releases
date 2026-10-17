@@ -1,13 +1,19 @@
 {
   "format": "stream-multichat.extensions",
-  "serial": 8,
-  "issuedAt": "2026-10-14T07:48:22Z",
+  "serial": 9,
+  "issuedAt": "2026-10-17T20:43:49Z",
   "extensions": [
     {
       "id": "anti-spam-golpes",
       "version": "1.2.0",
       "manifestPath": "anti-spam-golpes/manifest.json",
       "manifestSha256": "fba162d46a99c9a59ca622de2027f82b1a14bcf67a120b7fb46d6e0a803ac7d9"
+    },
+    {
+      "id": "aviso-de-live",
+      "version": "1.0.0",
+      "manifestPath": "aviso-de-live/manifest.json",
+      "manifestSha256": "53911c60444819aa459b66854e6491d003211b00315ee507237ead83396b6f4e"
     },
     {
       "id": "destacar-no-chat",
