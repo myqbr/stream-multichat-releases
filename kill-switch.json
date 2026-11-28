@@ -1,7 +1,7 @@
 {
   "format": "stream-multichat.kill-switch",
-  "serial": 65,
-  "issuedAt": "2026-11-28T08:24:02Z",
+  "serial": 66,
+  "issuedAt": "2026-11-28T12:59:37Z",
   "recent": [
     "0.1.0-beta.34",
     "0.1.0-beta.33"
