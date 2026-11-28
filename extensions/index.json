@@ -1,7 +1,7 @@
 {
   "format": "stream-multichat.extensions",
-  "serial": 10,
-  "issuedAt": "2026-10-17T20:57:19Z",
+  "serial": 11,
+  "issuedAt": "2026-11-28T06:52:00Z",
   "extensions": [
     {
       "id": "anti-spam-golpes",
